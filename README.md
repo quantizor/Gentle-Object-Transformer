@@ -1,4 +1,4 @@
-Gentle-Object-Transformer
+Gentle Object Transformer
 =========================
 
 Walks through complex objects and transforms the destination into the source without outright replacement.
