@@ -13,7 +13,6 @@
 */
 
 function recursivelyUpdateData ( source, destination ) {
-
     var toString = Object.prototype.toString,
         isArray = function( target ){ return toString.call(target) === '[object Array]' },
         isPlainObject = function( target ){ return toString.call(target) === '[object Object]' };
@@ -21,7 +20,6 @@ function recursivelyUpdateData ( source, destination ) {
     function DU ( source, destination ) {
 
         if ( isPlainObject(source) ) {
-
             var sourceKeys = Object.keys(source),
                 destinationKeys = Object.keys(destination),
                 key;
@@ -29,7 +27,6 @@ function recursivelyUpdateData ( source, destination ) {
             // Update matches & Add keys not in destination
 
             for ( var n = 0, len = sourceKeys.length; n < len; n++ ) {
-
                 key = sourceKeys[n];
 
                 if( typeof destination[key] === 'undefined' || ( !isPlainObject(destination[key]) && !isArray(destination[key]) ) ) {
@@ -43,7 +40,6 @@ function recursivelyUpdateData ( source, destination ) {
             // Remove keys not in source (but only if a subobject or subarray)
 
             for ( var c = 0, len = destinationKeys.length; c < len; c++ ) {
-
                 key = destinationKeys[c];
 
                 if( !source[key] && ( isArray(destination[key]) || isPlainObject(destination[key]) ) ) {
@@ -65,14 +61,12 @@ function recursivelyUpdateData ( source, destination ) {
 
                 // Reduces the iteration count in the removal loop
 
-                var leftToProcess = destination.slice(0);
+                var leftToProcess = destination.slice(0),
+                    match, sItem;
 
                 // Update matches & Add items not in destination
 
-                var match, sItem;
-
                 for ( var n = 0, len = source.length; n < len; n++ ) {
-
                     sItem = source[n];
 
                     if ( ( match = destination.filter(function(dItem){ return sItem[primaryKey] === dItem[primaryKey]; })[0] ) ) {
@@ -87,28 +81,20 @@ function recursivelyUpdateData ( source, destination ) {
                 // Remove array items not in source
 
                 if ( source.length !== destination.length ) {
-
                     var dItem;
 
                     for ( var c = 0, len = leftToProcess.length; c < len; c++ ) {
-
                         dItem = leftToProcess[c];
 
                         if ( !( match = source.filter(function(sItem){ return dItem[primaryKey] === sItem[primaryKey]; })[0] ) ) {
                             destination.splice( destination.indexOf(dItem), 1 );
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
 
     // Kick it off.
     DU ( source, destination );
-
 }
